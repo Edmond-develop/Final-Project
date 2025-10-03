@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go1f/pkg/api"
 	"go1f/pkg/db"
 	"go1f/pkg/server"
 	"os"
@@ -18,6 +19,7 @@ func main() {
 		return
 	}
 	defer db.DB.Close()
+	api.Init()
 	err = server.Run()
 	if err != nil {
 		fmt.Println("server run error:", err)

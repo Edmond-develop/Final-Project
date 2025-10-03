@@ -3,11 +3,11 @@ module github.com/Edmond-develop/todo-list
 go 1.24.4
 
 require (
+	github.com/go-chi/chi/v5 v5.2.3
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/stretchr/testify v1.11.1
-	modernc.org/sqlite v1.39.0
-
 	go1f v0.0.0
+	modernc.org/sqlite v1.39.0
 )
 
 replace go1f => ./
