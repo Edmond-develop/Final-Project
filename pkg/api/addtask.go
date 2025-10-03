@@ -39,7 +39,7 @@ func AddTaskHandler(w http.ResponseWriter, r *http.Request) {
 func checkDate(task *db.Task) error {
 	now := time.Now()
 
-	if task.Date == "" {
+	if task.Date == "" || task.Date == "today" {
 		task.Date = now.Format("20060102")
 	}
 
