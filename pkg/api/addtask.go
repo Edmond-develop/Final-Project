@@ -9,10 +9,6 @@ import (
 )
 
 func AddTaskHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-		return
-	}
 	var task db.Task
 	err := json.NewDecoder(r.Body).Decode(&task)
 	if err != nil {
@@ -33,17 +29,19 @@ func AddTaskHandler(w http.ResponseWriter, r *http.Request) {
 		writeJson(w, map[string]string{"error": err.Error()})
 		return
 	}
-	writeJson(w, map[string]int64{"id": id})
+	writeJson(w, map[string]string{"id": id})
 }
 
 func checkDate(task *db.Task) error {
 	now := time.Now()
 
 	if task.Date == "" || task.Date == "today" {
-		task.Date = now.Format("20060102")
+		task.Date = now.Format(`20060102`)
+		fmt.Println(task.Date)
+		return nil
 	}
 
-	t, err := time.Parse("20060102", task.Date)
+	t, err := time.Parse(`20060102`, task.Date)
 	if err != nil {
 		return fmt.Errorf("invalid date format, expected YYYYMMDD")
 	}
@@ -59,7 +57,7 @@ func checkDate(task *db.Task) error {
 	if afterNow(now, t) {
 		if task.Repeat == "" {
 			// без repeat → ставим сегодняшнюю
-			task.Date = now.Format("20060102")
+			task.Date = now.Format(`20060102`)
 		} else {
 			// с repeat → берём следующую дату
 			task.Date = next

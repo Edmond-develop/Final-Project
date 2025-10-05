@@ -17,14 +17,16 @@ func nextDayHandler(w http.ResponseWriter, r *http.Request) {
 	nowTime, err := time.Parse(DateFormat, now)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	next, err := NextDate(nowTime, date, repeat)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, next)
+	fmt.Fprint(w, next)
 }
 
 func NextDate(now time.Time, dstart string, repeat string) (string, error) {

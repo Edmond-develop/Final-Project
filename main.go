@@ -6,9 +6,12 @@ import (
 	"go1f/pkg/db"
 	"go1f/pkg/server"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load()
 	dbFile := os.Getenv("TODO_DBFILE")
 	if dbFile == "" {
 		dbFile = "scheduler.db"
